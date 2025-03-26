@@ -8,7 +8,7 @@
 
 int main(void) {
 
-    DIR *dirp = opendir("/musl-bin/lib");
+    DIR *dirp = opendir(".");
 
     struct dirent *dir = NULL;
     while ((dir = readdir(dirp)) != NULL)

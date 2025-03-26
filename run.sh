@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-# ./configure --prefix=/home/lukas/code/repos/penguin/musl-bin \
+# ./configure --prefix=../initramfs --exec-prefix=../
 
 # make -C linux defconfig
 # make -C linux -j$(nproc)
 
-cc -static init.c -o init
-    # `pkg-config --cflags libdrm` \
-    # `pkg-config --libs libdrm`
+cc -static init.c -o initramfs/init
 
-find init musl-bin | cpio -o --format=newc > initramfs
+cd initramfs
+find . | cpio -ov --format=newc > ../initramfs.cpio
+cd ..
 
 qemu-system-x86_64 \
     -kernel linux/arch/x86_64/boot/bzImage \
-    -initrd initramfs \
+    -initrd initramfs.cpio \
     -nographic \
     -append "console=ttyS0"
