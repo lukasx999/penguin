@@ -1,16 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h>
+
 #include <dirent.h>
+#include <stdio.h>
+
+// #include <xf86drm.h>
+// #include <xf86drmMode.h>
 
 int main(void) {
 
-    DIR *dir = opendir(".");
-    struct dirent *d = NULL;
-    while ((d = readdir(dir)) != NULL) {
-        printf("dir: %s\n", d->d_name);
-    }
+    DIR *dirp = opendir("/musl-bin/lib");
 
-    printf("greetings!\n");
+    struct dirent *dir = NULL;
+    while ((dir = readdir(dirp)) != NULL)
+        printf("%s\n", dir->d_name);
+
+    closedir(dirp);
+
     while (1);
     return 0;
 }
